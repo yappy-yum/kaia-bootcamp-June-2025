@@ -10,3 +10,5 @@ PRIVATE_KEY=<private-key>
 ```
 
 replace `<private-key>` with your own private key
+
+Click [here](https://github.com/kaiachain/build-on-kaia-bootcamp/tree/main) to view all the bootcamp exercises

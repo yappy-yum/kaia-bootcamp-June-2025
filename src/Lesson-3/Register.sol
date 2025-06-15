@@ -9,8 +9,8 @@ contract Register {
 
     event registered(
         string name,
-        uint studentCount,
-        uint year
+        uint indexed studentCount,
+        uint indexed year
     );
 
     /*//////////////////////////////////////////////////////////////
