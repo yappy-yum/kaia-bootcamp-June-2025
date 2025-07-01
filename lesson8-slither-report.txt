@@ -1,0 +1,216 @@
+'forge config --json' running
+Could not detect solc version from Foundry config. Falling back to system version...
+'solc --version' running
+'solc @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/ erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/ forge-std/=lib/forge-std/src/ halmos-cheatcodes/=lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/ openzeppelin-contracts/=lib/openzeppelin-contracts/ src/Lesson-8/gasless-voting\Registry.sol --combined-json abi,ast,bin,bin-runtime,srcmap,srcmap-runtime,userdoc,devdoc,hashes --optimize-runs 200 --evm-version cancun --allow-paths .,C:\Users\User\Desktop\coding\Kaia-Bootcamp-June-2025\src\Lesson-8\gasless-voting' running
+Compilation warnings/errors on src/Lesson-8/gasless-voting\Registry.sol:
+Warning: Transient storage as defined by EIP-1153 can break the composability of smart contracts: Since transient storage is cleared only at the end of the transaction and not at the end of the outermost call frame to the contract within a transaction, your contract may unintentionally misbehave when invoked multiple times in a complex transaction. To avoid this, be sure to clear all transient storage at the end of any call to your contract. The use of transient storage for reentrancy guards that are cleared at the end of the call is safe.
+
+  --> src/Lesson-8/gasless-voting/Utils/ReentrancyGuard.sol:18:13:
+
+   |
+
+18 |             tstore(0, 1)
+
+   |             ^^^^^^
+
+
+
+
+'forge config --json' running
+Could not detect solc version from Foundry config. Falling back to system version...
+'solc --version' running
+'solc @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/ erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/ forge-std/=lib/forge-std/src/ halmos-cheatcodes/=lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/ openzeppelin-contracts/=lib/openzeppelin-contracts/ src/Lesson-8/gasless-voting\Vote.sol --combined-json abi,ast,bin,bin-runtime,srcmap,srcmap-runtime,userdoc,devdoc,hashes --optimize-runs 200 --evm-version cancun --allow-paths .,C:\Users\User\Desktop\coding\Kaia-Bootcamp-June-2025\src\Lesson-8\gasless-voting' running
+Compilation warnings/errors on src/Lesson-8/gasless-voting\Vote.sol:
+Warning: Transient storage as defined by EIP-1153 can break the composability of smart contracts: Since transient storage is cleared only at the end of the transaction and not at the end of the outermost call frame to the contract within a transaction, your contract may unintentionally misbehave when invoked multiple times in a complex transaction. To avoid this, be sure to clear all transient storage at the end of any call to your contract. The use of transient storage for reentrancy guards that are cleared at the end of the call is safe.
+
+  --> src/Lesson-8/gasless-voting/Utils/ReentrancyGuard.sol:18:13:
+
+   |
+
+18 |             tstore(0, 1)
+
+   |             ^^^^^^
+
+
+
+
+INFO:Detectors:
+Vote.s_voteResult (src/Lesson-8/gasless-voting/Vote.sol#60) is never initialized. It is used in:
+	- Vote.StopVote(uint256[],uint256,uint256,bytes32) (src/Lesson-8/gasless-voting/Vote.sol#137-202)
+	- Vote.getVoteResult(uint256) (src/Lesson-8/gasless-voting/Vote.sol#311-313)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-state-variables
+
+INFO:Detectors:
+Vote.withdraw() (src/Lesson-8/gasless-voting/Vote.sol#231-254) performs a multiplication on the result of a division:
+	- bal = bal * sload(uint256)(s_candidates) / 2 (src/Lesson-8/gasless-voting/Vote.sol#243)
+	- amountForRegistry = bal * 3 / 10 (src/Lesson-8/gasless-voting/Vote.sol#244)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+
+INFO:Detectors:
+Registry.CreateVote(uint256) (src/Lesson-8/gasless-voting/Registry.sol#32-55) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Registry.sol#42-49)
+Ownable.constructor(address) (src/Lesson-8/gasless-voting/Utils/Ownable.sol#12-19) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Ownable.sol#13-18)
+Ownable.getOwner() (src/Lesson-8/gasless-voting/Utils/Ownable.sol#45-49) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Ownable.sol#46-48)
+Ownable.changeOwner(address) (src/Lesson-8/gasless-voting/Utils/Ownable.sol#55-69) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Ownable.sol#56-68)
+Season.getCurrentState() (src/Lesson-8/gasless-voting/Utils/Season.sol#86-90) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Season.sol#87-89)
+Season._incState() (src/Lesson-8/gasless-voting/Utils/Season.sol#96-119) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Season.sol#98-109)
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Season.sol#112-118)
+Vote.constructor(address,uint256) (src/Lesson-8/gasless-voting/Vote.sol#70-98) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#71-82)
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#84-95)
+Vote.StopVote(uint256[],uint256,uint256,bytes32) (src/Lesson-8/gasless-voting/Vote.sol#137-202) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#168-198)
+Vote.withdraw() (src/Lesson-8/gasless-voting/Vote.sol#231-254) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#242-245)
+Vote._helpIncState() (src/Lesson-8/gasless-voting/Vote.sol#265-284) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#272-277)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage
+
+INFO:Detectors:
+Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Registry.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Utils/Ownable.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Utils/ReentrancyGuard.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Utils/Season.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Vote.sol#2)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+
+INFO:Detectors:
+Low level call in Registry.withdraw() (src/Lesson-8/gasless-voting/Registry.sol#70-73):
+	- (ok,None) = msg.sender.call{value: address(this).balance}() (src/Lesson-8/gasless-voting/Registry.sol#71)
+Low level call in Vote.claim(uint256,bytes32[]) (src/Lesson-8/gasless-voting/Vote.sol#208-225):
+	- (ok,None) = msg.sender.call{value: s_rewardPerUser}() (src/Lesson-8/gasless-voting/Vote.sol#223)
+Low level call in Vote.withdraw() (src/Lesson-8/gasless-voting/Vote.sol#231-254):
+	- (ok,None) = REGISTRY_CONTRACT_ADDRESS.call{value: amountForRegistry}() (src/Lesson-8/gasless-voting/Vote.sol#248)
+	- (ok,None) = msg.sender.call{value: bal - amountForRegistry}() (src/Lesson-8/gasless-voting/Vote.sol#252)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+
+INFO:Detectors:
+Function Registry.CreateVote(uint256) (src/Lesson-8/gasless-voting/Registry.sol#32-55) is not in mixedCase
+Parameter Registry.grandManager(address)._managerToGrand (src/Lesson-8/gasless-voting/Registry.sol#61) is not in mixedCase
+Variable Registry.s_VoteAddress (src/Lesson-8/gasless-voting/Registry.sol#25) is not in mixedCase
+Enum Season.state (src/Lesson-8/gasless-voting/Utils/Season.sol#6-11) is not in CapWords
+Parameter Vote.addCandidate(string)._metadata (src/Lesson-8/gasless-voting/Vote.sol#104) is not in mixedCase
+Function Vote.StopVote(uint256[],uint256,uint256,bytes32) (src/Lesson-8/gasless-voting/Vote.sol#137-202) is not in mixedCase
+Parameter Vote.StopVote(uint256[],uint256,uint256,bytes32)._voteResult (src/Lesson-8/gasless-voting/Vote.sol#137) is not in mixedCase
+Parameter Vote.StopVote(uint256[],uint256,uint256,bytes32).WinnerId (src/Lesson-8/gasless-voting/Vote.sol#137) is not in mixedCase
+Parameter Vote.StopVote(uint256[],uint256,uint256,bytes32)._merkleRoot (src/Lesson-8/gasless-voting/Vote.sol#137) is not in mixedCase
+Variable Vote.s_WinnerId (src/Lesson-8/gasless-voting/Vote.sol#62) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+
+INFO:Detectors:
+Registry.CreateVote(uint256) (src/Lesson-8/gasless-voting/Registry.sol#32-55) uses literals with too many digits:
+	- bytesCode = abi.encodePacked(type()(Vote).creationCode,abi.encode(msg.sender,supply)) (src/Lesson-8/gasless-voting/Registry.sol#35-38)
+Vote.constructor(address,uint256) (src/Lesson-8/gasless-voting/Vote.sol#70-98) uses literals with too many digits:
+	- candidateSupply < 1000000000000000000 (src/Lesson-8/gasless-voting/Vote.sol#72-81)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits
+
+INFO:Detectors:
+Loop condition i < s_candidates.length (src/Lesson-8/gasless-voting/Vote.sol#114) should use cached array length instead of referencing `length` member of the storage array.
+ Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#cache-array-length
+
+INFO:Detectors:
+Vote.s_voteResult (src/Lesson-8/gasless-voting/Vote.sol#60) is never initialized. It is used in:
+	- Vote.StopVote(uint256[],uint256,uint256,bytes32) (src/Lesson-8/gasless-voting/Vote.sol#137-202)
+	- Vote.getVoteResult(uint256) (src/Lesson-8/gasless-voting/Vote.sol#311-313)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-state-variables
+
+INFO:Detectors:
+Vote.withdraw() (src/Lesson-8/gasless-voting/Vote.sol#231-254) performs a multiplication on the result of a division:
+	- bal = bal * sload(uint256)(s_candidates) / 2 (src/Lesson-8/gasless-voting/Vote.sol#243)
+	- amountForRegistry = bal * 3 / 10 (src/Lesson-8/gasless-voting/Vote.sol#244)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+
+INFO:Detectors:
+Registry.CreateVote(uint256) (src/Lesson-8/gasless-voting/Registry.sol#32-55) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Registry.sol#42-49)
+Ownable.constructor(address) (src/Lesson-8/gasless-voting/Utils/Ownable.sol#12-19) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Ownable.sol#13-18)
+Ownable.getOwner() (src/Lesson-8/gasless-voting/Utils/Ownable.sol#45-49) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Ownable.sol#46-48)
+Ownable.changeOwner(address) (src/Lesson-8/gasless-voting/Utils/Ownable.sol#55-69) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Ownable.sol#56-68)
+Season.getCurrentState() (src/Lesson-8/gasless-voting/Utils/Season.sol#86-90) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Season.sol#87-89)
+Season._incState() (src/Lesson-8/gasless-voting/Utils/Season.sol#96-119) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Season.sol#98-109)
+	- INLINE ASM (src/Lesson-8/gasless-voting/Utils/Season.sol#112-118)
+Vote.constructor(address,uint256) (src/Lesson-8/gasless-voting/Vote.sol#70-98) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#71-82)
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#84-95)
+Vote.StopVote(uint256[],uint256,uint256,bytes32) (src/Lesson-8/gasless-voting/Vote.sol#137-202) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#168-198)
+Vote.withdraw() (src/Lesson-8/gasless-voting/Vote.sol#231-254) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#242-245)
+Vote._helpIncState() (src/Lesson-8/gasless-voting/Vote.sol#265-284) uses assembly
+	- INLINE ASM (src/Lesson-8/gasless-voting/Vote.sol#272-277)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage
+
+INFO:Detectors:
+Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)
+	- FullInlinerNonExpressionSplitArgumentEvaluationOrder
+	- MissingSideEffectsOnSelectorAccess
+	- AbiReencodingHeadOverflowWithStaticArrayCleanup
+	- DirtyBytesArrayToStorage
+	- DataLocationChangeInInternalOverride
+	- NestedCalldataArrayAbiReencodingSizeValidation
+	- SignedImmutables
+	- ABIDecodeTwoDimensionalArrayMemory
+	- KeccakCaching.
+It is used by:
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Registry.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Utils/Ownable.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Utils/ReentrancyGuard.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Utils/Season.sol#2)
+	- ^0.8.0 (src/Lesson-8/gasless-voting/Vote.sol#2)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+
+INFO:Detectors:
+Low level call in Registry.withdraw() (src/Lesson-8/gasless-voting/Registry.sol#70-73):
+	- (ok,None) = msg.sender.call{value: address(this).balance}() (src/Lesson-8/gasless-voting/Registry.sol#71)
+Low level call in Vote.claim(uint256,bytes32[]) (src/Lesson-8/gasless-voting/Vote.sol#208-225):
+	- (ok,None) = msg.sender.call{value: s_rewardPerUser}() (src/Lesson-8/gasless-voting/Vote.sol#223)
+Low level call in Vote.withdraw() (src/Lesson-8/gasless-voting/Vote.sol#231-254):
+	- (ok,None) = REGISTRY_CONTRACT_ADDRESS.call{value: amountForRegistry}() (src/Lesson-8/gasless-voting/Vote.sol#248)
+	- (ok,None) = msg.sender.call{value: bal - amountForRegistry}() (src/Lesson-8/gasless-voting/Vote.sol#252)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+
+INFO:Detectors:
+Function Registry.CreateVote(uint256) (src/Lesson-8/gasless-voting/Registry.sol#32-55) is not in mixedCase
+Parameter Registry.grandManager(address)._managerToGrand (src/Lesson-8/gasless-voting/Registry.sol#61) is not in mixedCase
+Variable Registry.s_VoteAddress (src/Lesson-8/gasless-voting/Registry.sol#25) is not in mixedCase
+Enum Season.state (src/Lesson-8/gasless-voting/Utils/Season.sol#6-11) is not in CapWords
+Parameter Vote.addCandidate(string)._metadata (src/Lesson-8/gasless-voting/Vote.sol#104) is not in mixedCase
+Function Vote.StopVote(uint256[],uint256,uint256,bytes32) (src/Lesson-8/gasless-voting/Vote.sol#137-202) is not in mixedCase
+Parameter Vote.StopVote(uint256[],uint256,uint256,bytes32)._voteResult (src/Lesson-8/gasless-voting/Vote.sol#137) is not in mixedCase
+Parameter Vote.StopVote(uint256[],uint256,uint256,bytes32).WinnerId (src/Lesson-8/gasless-voting/Vote.sol#137) is not in mixedCase
+Parameter Vote.StopVote(uint256[],uint256,uint256,bytes32)._merkleRoot (src/Lesson-8/gasless-voting/Vote.sol#137) is not in mixedCase
+Variable Vote.s_WinnerId (src/Lesson-8/gasless-voting/Vote.sol#62) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+
+INFO:Detectors:
+Registry.CreateVote(uint256) (src/Lesson-8/gasless-voting/Registry.sol#32-55) uses literals with too many digits:
+	- bytesCode = abi.encodePacked(type()(Vote).creationCode,abi.encode(msg.sender,supply)) (src/Lesson-8/gasless-voting/Registry.sol#35-38)
+Vote.constructor(address,uint256) (src/Lesson-8/gasless-voting/Vote.sol#70-98) uses literals with too many digits:
+	- candidateSupply < 1000000000000000000 (src/Lesson-8/gasless-voting/Vote.sol#72-81)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#too-many-digits
+
+INFO:Detectors:
+Loop condition i < s_candidates.length (src/Lesson-8/gasless-voting/Vote.sol#114) should use cached array length instead of referencing `length` member of the storage array.
+ Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#cache-array-length
+INFO:Slither:src/Lesson-8/gasless-voting/ analyzed (14 contracts with 94 detectors), 58 result(s) found

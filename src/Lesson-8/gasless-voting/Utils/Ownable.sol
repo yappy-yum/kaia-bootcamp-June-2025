@@ -11,7 +11,10 @@ abstract contract Ownable {
 
     constructor(address _owner) {
         assembly {
-            sstore(0, _owner)
+            sstore(
+                s_owner.slot, 
+                _owner
+            )
         }
     }
 
@@ -21,7 +24,7 @@ abstract contract Ownable {
 
     modifier onlyOwner() {
         assembly {
-            if iszero(eq(caller(), sload(0))) {
+            if iszero(eq(caller(), sload(s_owner.slot))) {
                 let p := mload(0x40)
 
                 mstore(p, shl(224, 0x08c379a0))
@@ -41,7 +44,7 @@ abstract contract Ownable {
 
     function getOwner() public view returns (address owner) {
         assembly {
-            owner := sload(0)
+            owner := sload(s_owner.slot)
         }
     }
 
@@ -51,7 +54,17 @@ abstract contract Ownable {
 
     function changeOwner(address newOwner) public onlyOwner {
         assembly {
-            sstore(0, newOwner)
+            if iszero(newOwner) {
+                let p := mload(0x40)
+
+                mstore(p, shl(224, 0x08c379a0))       
+                mstore(add(p, 0x04), 0x20)            
+                mstore(add(p, 0x24), 12)              
+                mstore(add(p, 0x44), "Zero Address")  
+                revert(p, 0x64)  
+            }       
+            
+            sstore(s_owner.slot, newOwner)
         }
     }        
 

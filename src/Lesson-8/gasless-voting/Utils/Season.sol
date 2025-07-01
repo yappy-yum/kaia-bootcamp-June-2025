@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 abstract contract Season {
 
     enum state {
+        GettingReady,   // Setting up candidates
         InProgress,     // user starts voting
         Calculating,    // Calculating result + candidates send funds
         Terminated      // voting is over, user can claim rewards
@@ -12,17 +13,33 @@ abstract contract Season {
 
     /*//////////////////////////////////////////////////////////////
                                 modifier
-    //////////////////////////////////////////////////////////////*/    
+    //////////////////////////////////////////////////////////////*/  
 
-    modifier inProgress() {
+    modifier gettingReady() {
         assembly {
             if iszero(eq(sload(s_currentState.slot), 0)) {
                 let p := mload(0x40)
 
                 mstore(p, shl(224, 0x08c379a0))
                 mstore(add(p, 0x04), 0x20)
-                mstore(add(p, 0x24), 10)
-                mstore(add(p, 0x44), "Vote Ended")
+                mstore(add(p, 0x24), 11)
+                mstore(add(p, 0x44), "Not Started")
+
+                revert(p, 0x64)
+            }
+        }
+        _;
+    }  
+
+    modifier inProgress() {
+        assembly {
+            if iszero(eq(sload(s_currentState.slot), 1)) {
+                let p := mload(0x40)
+
+                mstore(p, shl(224, 0x08c379a0))
+                mstore(add(p, 0x04), 0x20)
+                mstore(add(p, 0x24), 14)
+                mstore(add(p, 0x44), "Not InProgress")
 
                 revert(p, 0x64)
             }
@@ -32,7 +49,7 @@ abstract contract Season {
 
     modifier collectingResult() {
         assembly {
-            if iszero(eq(sload(s_currentState.slot), 1)) {
+            if iszero(eq(sload(s_currentState.slot), 2)) {
                 let p := mload(0x40)
 
                 mstore(p, shl(224, 0x08c379a0))
@@ -48,7 +65,7 @@ abstract contract Season {
 
     modifier finished() {
         assembly {
-            if iszero(eq(sload(s_currentState.slot), 2)) {
+            if iszero(eq(sload(s_currentState.slot), 3)) {
                 let p := mload(0x40)
 
                 mstore(p, shl(224, 0x08c379a0))
@@ -79,7 +96,7 @@ abstract contract Season {
     function _incState() internal {
         // ensures valid state
         assembly{
-            if eq(sload(s_currentState.slot), 2) {
+            if eq(sload(s_currentState.slot), 3) {
                 let p := mload(0x40)
 
                 mstore(p, shl(224, 0x08c379a0))
